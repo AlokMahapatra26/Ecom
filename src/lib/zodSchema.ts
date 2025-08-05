@@ -1,0 +1,26 @@
+import { z } from "zod";
+
+const strongPassword = z
+  .string()
+  .min(8, "Password must be at least 8 characters")
+  .max(64, "Password can't be longer than 64 characters")
+  .regex(/[A-Z]/, "Must include at least one uppercase letter")
+  .regex(/[a-z]/, "Must include at least one lowercase letter")
+  .regex(/[0-9]/, "Must include at least one number")
+  .regex(/[^A-Za-z0-9]/, "Must include at least one special character");
+
+const strictNameSchema = z.string()
+  .trim()
+  .min(2, "Name must be at least 2 characters")
+  .max(32, "Name must be at most 32 characters")
+  .regex(
+    /^[A-Za-z\s'-]+$/,
+    "Name can only contain letters, spaces, hyphens, and apostrophes"
+  );
+
+export const zSchema = z
+  .object({
+    email: z.email("Invalid email address"),
+    password: strongPassword,
+    name: strictNameSchema,
+  })
