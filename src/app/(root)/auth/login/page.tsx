@@ -20,12 +20,15 @@ import {
 import { Input } from "@/components/ui/input"
 import ButtonLoading from '@/components/Application/ButtonLoading'
 import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
-
+import axios from 'axios'
+import OTPVerification from '@/components/Application/OTPVerification'
 
 const LoginPage = () => {
 
   const [loading , setLoading] = useState(false);
   const [isTypePassword , setIsTypePassword] = useState(true);
+  const [otpEmail , setOtpEmail] = useState("");
+  const [otpVerificationLoading , setOtpVerificationLoading] = useState(false);
 
   const formSchema = zSchema.pick({
     email: true,
@@ -48,7 +51,39 @@ const LoginPage = () => {
   };
 
   const handleLoginSubmit = async (values:LoginFormValues) => {
-    console.log(values)
+    try{
+      setLoading(true)
+      const {data: registerResponse} = await axios.post('/api/auth/login' , values);
+      if(!registerResponse.success){
+        throw new Error(registerResponse.message)
+      }
+      
+      setOtpEmail(values.email)
+      form.reset()
+      alert(registerResponse.message)
+    }catch(error:any){
+      alert(error.message)
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  // otp verification
+  const handleOtpVerification = async (values:any) => {
+    try{
+      setOtpVerificationLoading(true)
+      const {data: registerResponse} = await axios.post('/api/auth/verify-otp' , values);
+      if(!registerResponse.success){
+        throw new Error(registerResponse.message)
+      }
+      
+      setOtpEmail('')
+      alert(registerResponse.message)
+    }catch(error:any){
+      alert(error.message)
+    }finally{
+      setOtpVerificationLoading(false);
+    }
   }
 
 
@@ -58,7 +93,12 @@ const LoginPage = () => {
         <div className='flex justify-center'>
           <Image src="/images/logo-white-1.png" width={150} height={150} alt='logo' className='max-w-[150px]'></Image>
         </div>
-        <div className='text-center'>
+
+        {
+          !otpEmail 
+            ?
+            <>
+            <div className='text-center'>
           <h1 className='text-3xl font-bold'>Login Into Account</h1>
         </div>
         <br />
@@ -115,6 +155,14 @@ const LoginPage = () => {
       </form>
     </Form>
         </div>
+            </> 
+            :
+            <>
+            <OTPVerification email={otpEmail} loading={otpVerificationLoading} onSubmit={handleOtpVerification}/>
+            </>
+        }
+
+        
       </CardContent>
     </Card>
   )

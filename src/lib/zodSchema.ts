@@ -18,9 +18,14 @@ const strictNameSchema = z.string()
     "Name can only contain letters, spaces, hyphens, and apostrophes"
   );
 
+const otpSchema = z.string().regex(/^\d{6}$/, {
+  message: "OTP must be exactly 6 digits",
+});  
+
 export const zSchema = z
   .object({
     email: z.email("Invalid email address"),
     password: strongPassword,
     name: strictNameSchema,
+    otp: otpSchema
   })

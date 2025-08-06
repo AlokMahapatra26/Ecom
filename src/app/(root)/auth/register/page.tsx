@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import ButtonLoading from '@/components/Application/ButtonLoading'
 import { WEBSITE_LOGIN} from '@/routes/WebsiteRoute'
+import axios from 'axios'
 
 
 const RegisterPage = () => {
@@ -57,7 +58,20 @@ const RegisterPage = () => {
   };
 
   const handleRegisterSubmit = async (values:RegisterFormValues) => {
-    console.log(values)
+    try{
+      setLoading(true)
+      const {data: registerResponse} = await axios.post('/api/auth/register' , values);
+      if(!registerResponse.success){
+        throw new Error(registerResponse.message)
+      }
+
+      form.reset()
+      alert(registerResponse.message)
+    }catch(error:any){
+      alert(error.message)
+    }finally{
+      setLoading(false);
+    }
   }
 
 

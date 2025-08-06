@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(root)/auth/verify-email/[token]/page.jsx", "src/app/api/auth/verify-email/route.js", "src/app/api/auth/verify-otp/route.js", "src/app/api/auth/resend-otp/route.js"],
   "exclude": ["node_modules"]
 }
