@@ -53,14 +53,14 @@ const LoginPage = () => {
   const handleLoginSubmit = async (values:LoginFormValues) => {
     try{
       setLoading(true)
-      const {data: registerResponse} = await axios.post('/api/auth/login' , values);
-      if(!registerResponse.success){
-        throw new Error(registerResponse.message)
+      const {data: loginResponse} = await axios.post('/api/auth/login' , values);
+      if(!loginResponse.success){
+        throw new Error(loginResponse.message)
       }
       
       setOtpEmail(values.email)
       form.reset()
-      alert(registerResponse.message)
+      alert(loginResponse.message)
     }catch(error:any){
       alert(error.message)
     }finally{
@@ -72,13 +72,13 @@ const LoginPage = () => {
   const handleOtpVerification = async (values:any) => {
     try{
       setOtpVerificationLoading(true)
-      const {data: registerResponse} = await axios.post('/api/auth/verify-otp' , values);
-      if(!registerResponse.success){
-        throw new Error(registerResponse.message)
+      const {data: otpResponse} = await axios.post('/api/auth/verify-otp' , values);
+      if(!otpResponse.success){
+        throw new Error(otpResponse.message)
       }
       
       setOtpEmail('')
-      alert(registerResponse.message)
+      alert(otpResponse.message)
     }catch(error:any){
       alert(error.message)
     }finally{
