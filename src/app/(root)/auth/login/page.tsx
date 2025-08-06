@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import ButtonLoading from '@/components/Application/ButtonLoading'
-import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
+import { WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute'
 import axios from 'axios'
 import OTPVerification from '@/components/Application/OTPVerification'
 import { useDispatch } from 'react-redux'
@@ -154,7 +154,7 @@ const LoginPage = () => {
             <Link href={WEBSITE_REGISTER} className='text-primary underline'>Create account</Link>
           </div>
           <div className='mt-3'>
-            <Link href="" className='text-primary underline'>Forgot password?</Link>
+            <Link href={WEBSITE_RESETPASSWORD} className='text-primary underline'>Forgot password?</Link>
           </div>
         </div>
       </form>
