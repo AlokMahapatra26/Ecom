@@ -22,9 +22,12 @@ import ButtonLoading from '@/components/Application/ButtonLoading'
 import { WEBSITE_REGISTER } from '@/routes/WebsiteRoute'
 import axios from 'axios'
 import OTPVerification from '@/components/Application/OTPVerification'
+import { useDispatch } from 'react-redux'
+import { login } from '@/store/reducer/authReducer'
 
 const LoginPage = () => {
 
+  const dispatch = useDispatch()
   const [loading , setLoading] = useState(false);
   const [isTypePassword , setIsTypePassword] = useState(true);
   const [otpEmail , setOtpEmail] = useState("");
@@ -79,6 +82,8 @@ const LoginPage = () => {
       
       setOtpEmail('')
       alert(otpResponse.message)
+
+      dispatch(login(otpResponse.data))
     }catch(error:any){
       alert(error.message)
     }finally{

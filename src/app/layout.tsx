@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda } from "next/font/google";
 import "./globals.css";
+import GobalProvider from "@/components/Application/GobalProvider";
 
 const assistantFont = Bodoni_Moda({
   weight:['400','500','600','700'],
@@ -21,7 +22,10 @@ export default function RootLayout({
       <body
         className={`${assistantFont.className} antialiased`}
       >
-        {children}
+        <GobalProvider>
+             {children}
+        </GobalProvider>
+     
       </body>
     </html>
   );
