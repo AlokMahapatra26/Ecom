@@ -19,15 +19,19 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import ButtonLoading from '@/components/Application/ButtonLoading'
-import { WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute'
+import { USER_DASHBOARD, WEBSITE_REGISTER, WEBSITE_RESETPASSWORD } from '@/routes/WebsiteRoute'
 import axios from 'axios'
 import OTPVerification from '@/components/Application/OTPVerification'
 import { useDispatch } from 'react-redux'
 import { login } from '@/store/reducer/authReducer'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ADMIN_DASHBOARD } from '@/routes/AdminPanleRoute'
 
 const LoginPage = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  const router = useRouter()
   const [loading , setLoading] = useState(false);
   const [isTypePassword , setIsTypePassword] = useState(true);
   const [otpEmail , setOtpEmail] = useState("");
@@ -84,6 +88,13 @@ const LoginPage = () => {
       alert(otpResponse.message)
 
       dispatch(login(otpResponse.data))
+
+      if(searchParams.has('callback')){
+        router.push(searchParams.get('callback') || '/default-page')
+      }else{
+        otpResponse.data.role === "admin" ? router.push(ADMIN_DASHBOARD) : router.push(USER_DASHBOARD)
+      }
+
     }catch(error:any){
       alert(error.message)
     }finally{

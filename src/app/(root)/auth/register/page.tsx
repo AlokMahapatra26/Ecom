@@ -60,7 +60,7 @@ const RegisterPage = () => {
   const handleRegisterSubmit = async (values:RegisterFormValues) => {
     try{
       setLoading(true)
-      const {data: registerResponse} = await axios.put('/api/auth/register' , values);
+      const {data: registerResponse} = await axios.post('/api/auth/register' , values);
       if(!registerResponse.success){
         throw new Error(registerResponse.message)
       }
