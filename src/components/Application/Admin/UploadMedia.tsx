@@ -5,7 +5,7 @@ import { FilePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 
-const UploadMedia = ({isMultiple}:any) => {
+const UploadMedia = ({isMultiple , queryClient}:any) => {
 
 
     const handleOnError = (error: { statusText?: any } | null) => {
@@ -18,10 +18,10 @@ const UploadMedia = ({isMultiple}:any) => {
 
     const handleOnQueueEnd = async (results: any) => {
         const files = results.info.files 
-        const uploadedFiles = files.filter((file: { uploadInfo: any; }) => file.uploadInfo).map((file: { uploadInfo: { asset_id: any; public_id: any; secure_id: any; path: any; thumbnail_url: any; }; }) => ({
+        const uploadedFiles = files.filter((file: { uploadInfo: any; }) => file.uploadInfo).map((file: { uploadInfo: { asset_id: any; public_id: any; secure_url: any; path: any; thumbnail_url: any; }; }) => ({
             asset_id : file.uploadInfo.asset_id,
             public_id : file.uploadInfo.public_id,
-            secure_id : file.uploadInfo.secure_id,
+            secure_url : file.uploadInfo.secure_url,
             path : file.uploadInfo.path,
             thumbnail_url : file.uploadInfo.thumbnail_url,
             
@@ -33,7 +33,7 @@ const UploadMedia = ({isMultiple}:any) => {
                 if(!mediaUploadResponse.success){
                     throw new Error(mediaUploadResponse.message) 
                 }
-
+                queryClient.invalidateQueries(['media-data'])
                 alert(mediaUploadResponse.message)
             }catch(error){
                 alert(error)
@@ -66,7 +66,7 @@ const UploadMedia = ({isMultiple}:any) => {
 
             {({ open }) => {
                 return (
-                <Button className="button" onClick={() => open()}>
+                <Button className="button cursor-pointer" onClick={() => open()}>
                     <FilePlus/>
                     Upload
                 </Button>

@@ -13,7 +13,7 @@ const Topbar = () => {
   const {toggleSidebar} = useSidebar();
 
   return (
-    <div className="fixed top-0 left-0 z-30 w-full h-14 border-b px-4 flex items-center justify-between ">
+    <div className="fixed top-0 left-0 z-30 w-full h-14 border-b px-4 flex items-center justify-between bg-primary-foreground ">
       <div className=" text-base ml-[260px]">
         Search Component
       </div>

@@ -27,5 +27,8 @@ export const zSchema = z
     email: z.email("Invalid email address"),
     password: strongPassword,
     name: strictNameSchema,
-    otp: otpSchema
+    otp: otpSchema,
+    _id : z.string().min(3 , '_id is required'),
+    alt : z.string().min(3 , 'alt is required'),
+    title : z.string().min(3 , 'title is required'),
   })
