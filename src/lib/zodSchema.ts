@@ -12,7 +12,7 @@ const strongPassword = z
 const strictNameSchema = z.string()
   .trim()
   .min(2, "Name must be at least 2 characters")
-  .max(32, "Name must be at most 32 characters")
+  .max(64, "Name must be at most 64 characters")
   .regex(
     /^[A-Za-z\s'-]+$/,
     "Name can only contain letters, spaces, hyphens, and apostrophes"
@@ -31,4 +31,5 @@ export const zSchema = z
     _id : z.string().min(3 , '_id is required'),
     alt : z.string().min(3 , 'alt is required'),
     title : z.string().min(3 , 'title is required'),
+    slug : z.string().min(3 , "Slug is required")
   })

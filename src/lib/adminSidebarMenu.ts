@@ -5,7 +5,7 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlinePermMedia } from "react-icons/md";
 import { RiCoupon2Line } from "react-icons/ri";
-import { ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from "@/routes/AdminPanleRoute";
+import { ADMIN_CATEGORY_ADD, ADMIN_CATEGORY_SHOW, ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW } from "@/routes/AdminPanleRoute";
 
 
 export const adminAppSidebarMenu = [
@@ -21,10 +21,10 @@ export const adminAppSidebarMenu = [
         submenu:[
             {
                 title:"Add Category",
-                url : "#"
+                url : ADMIN_CATEGORY_ADD
             },{
                 title: "All Category",
-                url: "#"
+                url : ADMIN_CATEGORY_SHOW
             }
             ]
     },
