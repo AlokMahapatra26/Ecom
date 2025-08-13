@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { jwtVerify } from "jose";
+
 
 interface ApiResponse<T = any> {
   success: boolean;
@@ -55,38 +54,31 @@ export const generateOTP = () => {
   return otp;
 }
 
-export const isAuthenticated = async (role: unknown) => {
-  try{
-    const cookieStore = await cookies();
-    if(!cookieStore.has("access_token")){
-      return {
-        isAuth : false
-      }
-    }
 
-    const access_token = cookieStore.get("access_token")
-    if (!access_token || !access_token.value) {
-      return {
-        isAuth: false
-      }
-    }
-    const {payload} = await jwtVerify(access_token.value , new TextEncoder().encode(process.env.SECRET_KEY) )
 
-    if(payload.role !== role){
-      return {
-        isAuth : false
-      }
-    }
-
-    return {
-      isAuth : true,
-      userId: payload._id
-    }
-
-  }catch(error){
-    return {
-      isAuth : false,
-      error
-    }
+export const columnConfig = (column:any , isCreatedAt = false , isUpdatedAt = false , isDeletedAt = false) => {
+  const newColumn = [...column]
+  if(isCreatedAt){
+    newColumn.push({
+      accessorKey: "createdAt",
+      header : "Created At",
+      Cell:({renderedCellValue}:any) => (new Date(renderedCellValue).toLocaleString())
+    })
   }
+  if(isUpdatedAt){
+    newColumn.push({
+      accessorKey: "updatedAt",
+      header : "Updated At",
+      Cell:({renderedCellValue}:any) => (new Date(renderedCellValue).toLocaleString())
+    })
+  }
+  if(isDeletedAt){
+    newColumn.push({
+      accessorKey: "deletedAt",
+      header : "Deleted At",
+      Cell:({renderedCellValue}:any) => (new Date(renderedCellValue).toLocaleString())
+    })
+  }
+
+  return newColumn
 }

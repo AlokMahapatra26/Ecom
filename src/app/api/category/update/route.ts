@@ -4,7 +4,7 @@ import { isAuthenticated } from "@/lib/authentication";
 import { zSchema } from "@/lib/zodSchema";
 import CategoryModel from "@/models/Category.model";
 
-export async function POST(request:Request){
+export async function PUT(request:Request){
     try{
         const auth = await isAuthenticated('admin')
         if(!auth.isAuth){
@@ -15,7 +15,7 @@ export async function POST(request:Request){
         const payload = await request.json();
 
         const schema = zSchema.pick({
-            name : true , slug : true
+            _id:true , name : true , slug : true
         })
 
         const validate = schema.safeParse(payload);
@@ -24,15 +24,20 @@ export async function POST(request:Request){
             return response(false , 400 , 'invalid or missing fields', validate.error)
         }
 
-        const {name , slug} = validate.data
+        const {_id , name , slug} = validate.data
 
-        const newCategory = new CategoryModel({
-            name , slug
-        })
+        const getCategory = await CategoryModel.findOne({deletedAt : null, _id})
+        if(!getCategory){
+            return response(false , 404 , 'data not found')
+        }
 
-        await newCategory.save();
+        getCategory.name = name;
+        getCategory.slug = slug;
 
-        return response(true , 200 , 'Category added successfully')
+        await getCategory.save()
+
+
+        return response(true , 200 , 'Category Updated successfully')
 
         
     }catch(error){

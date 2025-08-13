@@ -7,4 +7,8 @@ export const ADMIN_MEDIA_EDIT = (id:string) => id? `/admin/media/edit/${id}` : '
 // Category Routes
 export const ADMIN_CATEGORY_ADD = "/admin/category/add"
 export const ADMIN_CATEGORY_SHOW = "/admin/category"
-export const ADMIN_CATEGORY_EDIT = (id:string) => id? `/admin/category/${id}` : ''
+export const ADMIN_CATEGORY_EDIT = (id:string) => id? `/admin/category/edit/${id}` : ''
+
+
+// trash route
+export const ADMIN_TRASH = "/admin/trash"

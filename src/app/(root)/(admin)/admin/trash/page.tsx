@@ -1,0 +1,84 @@
+"use client"
+import BreadCrumb from '@/components/Application/Admin/BreadCrumb'
+import DatatableWrapper from '@/components/Application/Admin/DatatableWrapper'
+import DeleteAction from '@/components/Application/Admin/DeleteAction'
+
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { DT_CATEGORY_COLUMN } from '@/lib/column'
+import { columnConfig } from '@/lib/helperFunction'
+import { ADMIN_DASHBOARD, ADMIN_TRASH } from '@/routes/AdminPanleRoute'
+
+import { useSearchParams } from 'next/navigation'
+import React, { useCallback, useMemo } from 'react'
+
+
+ const breadcrumbData = [
+    { href: ADMIN_DASHBOARD, label: 'Home' },
+    { href: ADMIN_TRASH, label: 'Trash' },
+  ]
+
+  const TRASH_CONFIG = {
+    category : {
+      title: "Category Trash",
+      columns : DT_CATEGORY_COLUMN,
+      fetchUrl : "/api/category",
+      exportUrl : "/api/category/export",
+      deleteUrl : "/api/category/delete"
+    } 
+  } as const;
+
+  type TrashConfigKeys = keyof typeof TRASH_CONFIG;
+
+const Trash = () => {
+
+  const searchParams = useSearchParams();
+  const trashOf = searchParams.get("trashof")
+
+   if (!trashOf || !(trashOf in TRASH_CONFIG)) {
+    // Handle the error case, e.g., show a "Not Found" message
+    return <div>Invalid trash type specified.</div>;
+  }
+  
+  const config = TRASH_CONFIG[trashOf as TrashConfigKeys]
+
+
+  const columns = useMemo(()=>{
+    return columnConfig(config.columns ,false , false , true)
+  },[])
+
+  const action = useCallback((row:any  , deleteType:any , handleDelete:any) => {
+   
+   return [<DeleteAction key="delete" handleDelete={handleDelete} row={row} deleteType={deleteType}/>]
+  } , [])
+
+ 
+
+  return (
+    <div>
+      <BreadCrumb breadcrumbData={breadcrumbData} />
+      <Card className="py-0 rounded shadow-none w-full gap-0">
+        <CardHeader className="border-b-1 py-2 px-3">
+          <div className='flex justify-between items-center'>
+            <h4 className="text-xl font-semibold">{config.title}</h4>
+          </div>
+
+        </CardHeader>
+        <CardContent className=" px-0 ">
+              <DatatableWrapper
+              queryKey={`${trashOf}-data-deleted`}
+              fetchUrl={config.fetchUrl}
+              initialPageSize={10}
+              columnsConfig={columns}
+              exportEndpoint={config.exportUrl}
+              deleteEndpoint={config.deleteUrl}
+              deleteType="PD"
+              createAction={action}
+              trashView={""}
+              />
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default Trash
