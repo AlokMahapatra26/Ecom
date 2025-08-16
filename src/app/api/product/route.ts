@@ -95,9 +95,10 @@
 // NEW CODE
 import { isAuthenticated } from "@/lib/authentication";
 import { connectDB } from "@/lib/databaseConnection";
-import CategoryModel from "@/models/Category.model";
+
 import { NextRequest, NextResponse } from "next/server";
 import { PipelineStage } from "mongoose";
+import ProductModel from "@/models/Product.model";
 
 // Define a type for the sorting query for better type safety
 type SortQuery = {
@@ -154,13 +155,48 @@ export async function GET(request: NextRequest) {
             matchQuery["$or"] = [
                 { name: { $regex: globalFilter, $options: "i" } },
                 { slug: { $regex: globalFilter, $options: "i" } },
+                {"categoryData.name" : {$regex : globalFilter , $options: 'i'}},
+                {
+                    $expr:{
+                        $regexMatch:{
+                            input:{$toString: "$mrp"},
+                            regex : globalFilter,
+                            options : 'i'
+                        }
+                    }
+                },
+                {
+                    $expr:{
+                        $regexMatch:{
+                            input:{$toString: "$sellingPrice"},
+                            regex : globalFilter,
+                            options : 'i'
+                        }
+                    }
+                },
+                {
+                    $expr:{
+                        $regexMatch:{
+                            input:{$toString: "$discountPercentage"},
+                            regex : globalFilter,
+                            options : 'i'
+                        }
+                    }
+                }
             ];
         }
 
         // Apply column-specific filters
         filters.forEach((filter: { id: string; value: string }) => {
             if (filter.id && filter.value) {
-                matchQuery[filter.id] = { $regex: filter.value, $options: 'i' };
+
+                if(filter.id === 'mrp' || filter.id === 'sellingPrice'  || filter.id === 'discountPercentage'){
+
+                     matchQuery[filter.id] = Number(filter)
+
+                }else{
+                    matchQuery[filter.id] = { $regex: filter.value, $options: 'i' };
+                }
             }
         });
 
@@ -175,6 +211,19 @@ export async function GET(request: NextRequest) {
         // 6. Define Aggregation Pipeline
         // Explicitly typing the pipeline array with Mongoose's PipelineStage type
         const aggregatePipeline: PipelineStage[] = [
+            {
+                $lookup:{
+                    from : "categories",
+                    localField: 'category',
+                    foreignField : '_id',
+                    as : 'categoryData'
+                }
+            },
+            {
+                $unwind : {
+                    path: '$categoryData' , preserveNullAndEmptyArrays : true
+                }
+            },
             { $match: matchQuery },
             // Use a default sort order if none is provided
             { $sort: Object.keys(sortQuery).length ? sortQuery : { createdAt: -1 } },
@@ -185,6 +234,10 @@ export async function GET(request: NextRequest) {
                     _id: 1,
                     name: 1,
                     slug: 1,
+                    mrp : 1,
+                    sellingPrice : 1,
+                    discountPercentage : 1,
+                    category : "$categoryData.name",
                     createdAt: 1,
                     updatedAt: 1,
                     deletedAt: 1
@@ -194,8 +247,8 @@ export async function GET(request: NextRequest) {
 
         // 7. Execute Aggregation and Count Queries Concurrently
         const [categories, totalRowCount] = await Promise.all([
-            CategoryModel.aggregate(aggregatePipeline),
-            CategoryModel.countDocuments(matchQuery)
+            ProductModel.aggregate(aggregatePipeline),
+            ProductModel.countDocuments(matchQuery)
         ]);
 
         // 8. Return Response

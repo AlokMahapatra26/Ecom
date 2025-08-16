@@ -31,5 +31,20 @@ export const zSchema = z
     _id : z.string().min(3 , '_id is required'),
     alt : z.string().min(3 , 'alt is required'),
     title : z.string().min(3 , 'title is required'),
-    slug : z.string().min(3 , "Slug is required")
+    slug : z.string().min(3 , "Slug is required"),
+    category  :z.string().min(3 , "Category is required"),
+    mrp: z.union([
+      z.number().positive("Expected positive value , received negetived"),
+      z.string().transform((val) => Number(val)).refine((val) => !isNaN(val) && val >= 0 , "Please enter a valid number")
+    ]),
+    sellingPrice: z.union([
+      z.number().positive("Expected positive value , received negetived"),
+      z.string().transform((val) => Number(val)).refine((val) => !isNaN(val) && val >= 0 , "Please enter a valid number")
+    ]),
+    discountPercentage: z.union([
+      z.number().positive("Expected positive value , received negetived"),
+      z.string().transform((val) => Number(val)).refine((val) => !isNaN(val) && val >= 0 , "Please enter a valid number")
+    ]),
+    description: z.string().min(3 , "Description is required"),
+    media : z.array(z.string())
   })

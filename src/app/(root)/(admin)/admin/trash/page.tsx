@@ -4,7 +4,7 @@ import DatatableWrapper from '@/components/Application/Admin/DatatableWrapper'
 import DeleteAction from '@/components/Application/Admin/DeleteAction'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { DT_CATEGORY_COLUMN } from '@/lib/column'
+import { DT_CATEGORY_COLUMN ,DT_PRODUCT_COLUMN} from '@/lib/column'
 import { columnConfig } from '@/lib/helperFunction'
 import { ADMIN_DASHBOARD, ADMIN_TRASH } from '@/routes/AdminPanleRoute'
 
@@ -24,6 +24,13 @@ import React, { useCallback, useMemo } from 'react'
       fetchUrl : "/api/category",
       exportUrl : "/api/category/export",
       deleteUrl : "/api/category/delete"
+    } ,
+    product : {
+      title: "Category Trash",
+      columns : DT_PRODUCT_COLUMN,
+      fetchUrl : "/api/product",
+      exportUrl : "/api/product/export",
+      deleteUrl : "/api/product/delete"
     } 
   } as const;
 

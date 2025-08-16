@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) { // Use NextRequest for 
     // --- User IS logged in ---
     try {
         const { payload } = await jwtVerify(accessToken, new TextEncoder().encode(secret));
-        console.log(payload)
+
         const role = payload.role as 'admin' | 'user';
 
         // Prevent logged-in users from accessing auth pages (e.g., /auth/login)

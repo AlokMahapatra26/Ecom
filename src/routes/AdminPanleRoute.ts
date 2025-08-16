@@ -10,5 +10,11 @@ export const ADMIN_CATEGORY_SHOW = "/admin/category"
 export const ADMIN_CATEGORY_EDIT = (id:string) => id? `/admin/category/edit/${id}` : ''
 
 
+// Product Routes
+export const ADMIN_PRODUCT_ADD = "/admin/product/add"
+export const ADMIN_PRODUCT_SHOW = "/admin/product"
+export const ADMIN_PRODUCT_EDIT = (id:string) => id? `/admin/product/edit/${id}` : ''
+
+
 // trash route
 export const ADMIN_TRASH = "/admin/trash"

@@ -32,13 +32,14 @@ const ProductSchema = new mongoose.Schema({
     },
     media: [
         {
-            types:mongoose.Schema.Types.ObjectId,
+            type:mongoose.Schema.Types.ObjectId,
             ref : "Media",
             required : true
         }
     ],
     description: {
         type : String , 
+        required : true
 
     },
     deletedAt: {
