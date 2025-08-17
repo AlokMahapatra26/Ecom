@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import GobalProvider from "@/components/Application/GobalProvider";
 
-const assistantFont = Bodoni_Moda({
+const assistantFont = Poppins({
   weight:['400','500','600','700'],
 })
 

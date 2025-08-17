@@ -5,6 +5,7 @@ import UserDropdown from './UserDropdown'
 import { Button } from '@/components/ui/button'
 import { RiMenu4Fill } from 'react-icons/ri'
 import { useSidebar } from '@/components/ui/sidebar'
+import { Input } from '@/components/ui/input'
 
 
 const Topbar = () => {
@@ -15,7 +16,7 @@ const Topbar = () => {
   return (
     <div className="fixed top-0 left-0 z-30 w-full h-14 border-b px-4 flex items-center justify-between bg-primary-foreground ">
       <div className=" text-base ml-[260px]">
-        Search Component
+        <Input className='' placeholder='Search...'/>
       </div>
       <div className="flex items-center gap-2">
         <ThemeSwitch />

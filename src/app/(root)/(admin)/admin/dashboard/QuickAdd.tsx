@@ -1,51 +1,74 @@
-import { ADMIN_CATEGORY_ADD, ADMIN_COUPON_ADD, ADMIN_MEDIA_EDIT, ADMIN_MEDIA_SHOW, ADMIN_PRODUCT_ADD } from '@/routes/AdminPanleRoute'
-import Link from 'next/link'
-import React from 'react'
-import { BiCategory } from 'react-icons/bi'
-import { IoShirtOutline } from 'react-icons/io5'
-import { LuUserRound } from 'react-icons/lu'
-import { MdOutlinePermMedia, MdOutlineShoppingBag } from 'react-icons/md'
-import { RiCoupon2Fill, RiCoupon2Line } from 'react-icons/ri'
+import { ADMIN_CATEGORY_ADD, ADMIN_COUPON_ADD, ADMIN_MEDIA_SHOW, ADMIN_PRODUCT_ADD } from '@/routes/AdminPanleRoute';
+import Link from 'next/link';
+import React from 'react';
+import { BiCategory, BiPlus } from 'react-icons/bi';
+import { IoShirtOutline } from 'react-icons/io5';
+import { MdOutlinePermMedia } from 'react-icons/md';
+import { RiCoupon2Line } from 'react-icons/ri';
 
-const QuickAdd = () => {
+// Define a type for the props for type safety and clarity
+type QuickLinkProps = {
+  href: string;
+  title: string;
+  icon: React.ElementType;
+};
+
+
+const QuickLink: React.FC<QuickLinkProps> = ({ href, title, icon: Icon }) => {
   return (
-    <div
-    className='grid lg:grid-cols-4 sm:grid-cols-2 sm:gap-10 gap-5 mt-10'
+    <Link
+      href={href}
+      className="group flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-card p-6 text-muted-foreground transition-all duration-200 ease-in-out hover:border-[#009a8a] hover:text-primary"
     >
-        <Link href={ADMIN_CATEGORY_ADD}>
-            <div className='flex items-center justify-between p-3 rounded-lg bg-card border' >
-              <h4 className='font-medium'>Add Category</h4>
-              <span className='w-12 h-12 border rounded-full flex justify-center items-center'>
-                <BiCategory size={20}/>
-              </span>
-            </div>
-        </Link>
-        <Link href={ADMIN_PRODUCT_ADD}>
-            <div className='flex items-center justify-between p-3 rounded-lg bg-card border' >
-              <h4 className='font-medium'>Add Product</h4>
-              <span className='w-12 h-12 border rounded-full flex justify-center items-center'>
-                <IoShirtOutline size={20}/>
-              </span>
-            </div>
-        </Link>
-        <Link href={ADMIN_COUPON_ADD}>
-            <div className='flex items-center justify-between p-3 rounded-lg bg-card border' >
-              <h4 className='font-medium'>Add Coupon</h4>
-              <span className='w-12 h-12 border rounded-full flex justify-center items-center'>
-                <RiCoupon2Line size={20}/>
-              </span>
-            </div>
-        </Link>
-        <Link href={ADMIN_MEDIA_SHOW}>
-            <div className='flex items-center justify-between p-3 rounded-lg bg-card border' >
-              <h4 className='font-medium'>Upload Media</h4>
-              <span className='w-12 h-12 border rounded-full flex justify-center items-center'>
-                <MdOutlinePermMedia size={20}/>
-              </span>
-            </div>
-        </Link>
-    </div>
-  )
-}
+      <Icon className="h-8 w-8 transition-transform group-hover:scale-110" />
+      <span className="text-sm font-semibold">{title}</span>
+    </Link>
+  );
+};
 
-export default QuickAdd
+/**
+ * A section for providing quick access to common "add" actions.
+ */
+const QuickAdd = () => {
+  // Define actions in an array to easily map over them, keeping the return statement clean.
+  const quickActions = [
+    {
+      href: ADMIN_PRODUCT_ADD,
+      title: "Add Product",
+      icon: IoShirtOutline,
+    },
+    {
+      href: ADMIN_CATEGORY_ADD,
+      title: "Add Category",
+      icon: BiCategory,
+    },
+    {
+      href: ADMIN_COUPON_ADD,
+      title: "Add Coupon",
+      icon: RiCoupon2Line,
+    },
+    {
+      href: ADMIN_MEDIA_SHOW,
+      title: "Upload Media",
+      icon: MdOutlinePermMedia,
+    },
+  ];
+
+  return (
+    <div className="mt-10">
+      <h3 className="mb-4 text-lg font-semibold tracking-tight">Quick Actions</h3>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {quickActions.map((action) => (
+          <QuickLink
+            key={action.title}
+            href={action.href}
+            title={action.title}
+            icon={action.icon}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default QuickAdd;

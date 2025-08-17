@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { spawn } from "child_process"
+
 import { IoStar } from "react-icons/io5"
 
 const LatestReview = () => {
@@ -34,8 +34,8 @@ const LatestReview = () => {
             <TableCell>
               <div className="flex items-center">
                 {Array.from({length:5}).map((_ , i) => (
-                  <span>
-                    <IoStar className="text-yellow-500" key={i}/>
+                  <span key={i}>
+                    <IoStar className="text-yellow-500"/>
                   </span>
                 ))}
               </div>
