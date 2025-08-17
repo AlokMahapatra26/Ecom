@@ -26,9 +26,7 @@ const layout = ({ children }: LayoutProps) => {
 
       <Topbar />
           {children}
-        </div>
-        <div className="border-t h-[40px] flex justify-center">
-          Made by Alok
+          <div className='h-[50px]'>dummy footer</div>
         </div>
       </main>
     </SidebarProvider>
