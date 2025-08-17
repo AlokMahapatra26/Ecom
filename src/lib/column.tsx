@@ -1,5 +1,7 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Chip } from "@mui/material"
 import dayjs from "dayjs"
+
 
 export const DT_CATEGORY_COLUMN = [
     {
@@ -93,7 +95,7 @@ export const DT_COUPON_COLUMN = [
 
         header: "Validity",
 
-        Cell: ({ renderedCellValue }:any) => (
+        Cell: ({ renderedCellValue }: any) => (
 
             new Date() > new Date(renderedCellValue) ? <Chip color="error" label={dayjs(renderedCellValue).format('DD/MM/YYYY')} /> : <Chip color="success" label={dayjs(renderedCellValue).format('DD/MM/YYYY')} />
 
@@ -101,3 +103,35 @@ export const DT_COUPON_COLUMN = [
 
     },
 ];
+
+
+
+export const DT_CUSTOMERS_COLUMN = [
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorKey: "email",
+        header: "Email",
+    },
+    {
+        accessorKey: "phone",
+        header: "Phone",
+    },
+    {
+        accessorKey: "address",
+        header: "Address",
+    },
+    // {
+    //     accessorKey: "isEmailVerified",
+    //     header: "Is Verified",
+    //     Cell: ({ renderedCellValue }: any) => {
+    //         renderedCellValue ? <Chip color="success" label="Verfied" /> : <Chip color="error" label="Not Verfied" />
+    //     }
+    // },
+
+
+
+
+]
