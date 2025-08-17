@@ -123,15 +123,29 @@ export const DT_CUSTOMERS_COLUMN = [
         accessorKey: "address",
         header: "Address",
     },
-    // {
-    //     accessorKey: "isEmailVerified",
-    //     header: "Is Verified",
-    //     Cell: ({ renderedCellValue }: any) => {
-    //         renderedCellValue ? <Chip color="success" label="Verfied" /> : <Chip color="error" label="Not Verfied" />
-    //     }
-    // },
+
+]
 
 
-
-
+export const DT_REVIEW_COLUMN = [
+    {
+        accessorKey: "product",
+        header: "Product",
+    },
+    {
+        accessorKey: "user",
+        header: "User",
+    },
+    {
+        accessorKey: "title",
+        header: "Title",
+    },
+    {
+        accessorKey: "rating",
+        header: "Rating",
+    },
+    {
+        accessorKey: "reviews",
+        header: "Reviews",
+    },
 ]

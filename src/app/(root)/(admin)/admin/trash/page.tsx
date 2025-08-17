@@ -4,7 +4,7 @@ import DatatableWrapper from '@/components/Application/Admin/DatatableWrapper'
 import DeleteAction from '@/components/Application/Admin/DeleteAction'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { DT_CATEGORY_COLUMN ,DT_COUPON_COLUMN,DT_CUSTOMERS_COLUMN,DT_PRODUCT_COLUMN , DT_PRODUCT_VARIANT_COLUMN} from '@/lib/column'
+import { DT_CATEGORY_COLUMN ,DT_COUPON_COLUMN,DT_CUSTOMERS_COLUMN,DT_PRODUCT_COLUMN , DT_PRODUCT_VARIANT_COLUMN, DT_REVIEW_COLUMN} from '@/lib/column'
 import { columnConfig } from '@/lib/helperFunction'
 import { ADMIN_DASHBOARD, ADMIN_TRASH } from '@/routes/AdminPanleRoute'
 
@@ -52,6 +52,13 @@ import React, { useCallback, useMemo } from 'react'
       fetchUrl : "/api/customers",
       exportUrl : "/api/customers/export",
       deleteUrl : "/api/customers/delete"
+    },
+    review : {
+      title: "Review Trash",
+      columns : DT_REVIEW_COLUMN,
+      fetchUrl : "/api/review",
+      exportUrl : "/api/review/export",
+      deleteUrl : "/api/review/delete"
     }
   } as const;
 
