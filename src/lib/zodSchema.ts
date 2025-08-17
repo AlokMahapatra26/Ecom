@@ -50,5 +50,11 @@ export const zSchema = z
     product: z.string().min(3 , "Product is required"),
     color: z.string().min(3 , "Color is required"),
     size: z.string().min(1 , "Size is required"),
-    sku: z.string().min(3 , "SKU is required")
+    sku: z.string().min(3 , "SKU is required"),
+    code: z.string().min(3 , "Code is required"),
+    minShoppingAmount: z.union([
+      z.number().positive("Expected positive value , received negetived"),
+      z.string().transform((val) => Number(val)).refine((val) => !isNaN(val) && val >= 0 , "Please enter a valid number")
+    ]),
+    validity : z.coerce.date()
   })
