@@ -5,7 +5,7 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import { LuUserRound } from "react-icons/lu";
 import { MdOutlinePermMedia } from "react-icons/md";
 import { RiCoupon2Line } from "react-icons/ri";
-import { ADMIN_CATEGORY_ADD, ADMIN_CATEGORY_SHOW, ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW, ADMIN_PRODUCT_ADD, ADMIN_PRODUCT_SHOW } from "@/routes/AdminPanleRoute";
+import { ADMIN_CATEGORY_ADD, ADMIN_CATEGORY_SHOW, ADMIN_DASHBOARD, ADMIN_MEDIA_SHOW, ADMIN_PRODUCT_ADD, ADMIN_PRODUCT_SHOW, ADMIN_PRODUCT_VARIANT_ADD, ADMIN_PRODUCT_VARIANT_SHOW } from "@/routes/AdminPanleRoute";
 
 
 export const adminAppSidebarMenu = [
@@ -38,15 +38,15 @@ export const adminAppSidebarMenu = [
                 url : ADMIN_PRODUCT_ADD
             },{
                 title: "Add Varient",
-                url: "#"
+                url: ADMIN_PRODUCT_VARIANT_ADD
             },
             {
                 title: "All Products",
                 url: ADMIN_PRODUCT_SHOW
             },
             {
-                title: "Products varient",
-                url: "#"
+                title: "All Product Variants",
+                url: ADMIN_PRODUCT_VARIANT_SHOW
             }
             ]
     },

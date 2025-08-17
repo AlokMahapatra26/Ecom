@@ -2,8 +2,7 @@ import { connectDB } from "@/lib/databaseConnection";
 import { catchError, response } from "@/lib/helperFunction";
 import { isAuthenticated } from "@/lib/authentication";
 import { zSchema } from "@/lib/zodSchema";
-import ProductModel from "@/models/Product.model";
-import { encode } from "entities";
+import ProductVariantModel from "@/models/ProductVariant.model";
 
 export async function POST(request: Request) {
     try {
@@ -16,15 +15,16 @@ export async function POST(request: Request) {
         const payload = await request.json();
 
         const schema = zSchema.pick({
-            name: true,
-            slug: true,
-            category: true,
+            product: true,
+            sku: true,
+            color: true,
+            size: true,
             mrp: true,
             sellingPrice: true,
             discountPercentage: true,
-            description: true,
-            media :true
+            media : true
         });
+
 
         const validate = schema.safeParse(payload);
 
@@ -32,22 +32,22 @@ export async function POST(request: Request) {
             return response(false, 400, 'invalid or missing fields', validate.error)
         }
 
-        const productData = validate.data
+        const variantData = validate.data
 
-        const newProduct = new ProductModel({
-            name : productData.name, 
-            slug : productData.slug ,
-            category : productData.category ,
-            mrp : productData.mrp ,
-            sellingPrice : productData.sellingPrice ,
-            discountPercentage : productData.discountPercentage ,
-            description : encode( productData.description ),
-            media : productData.media
+        const newProductVariant = new ProductVariantModel({
+            product : variantData.product,
+            color : variantData.color,
+            size : variantData.size,
+            sku : variantData.sku,
+            mrp: variantData.mrp,
+            sellingPrice: variantData.sellingPrice,
+            discountPercentage: variantData.discountPercentage,
+            media: variantData.media   
         })
 
-        await newProduct.save();
+        await newProductVariant.save();
 
-        return response(true, 200, 'Product added successfully')
+        return response(true, 200, 'Product Varinat added successfully')
 
 
     } catch (error) {

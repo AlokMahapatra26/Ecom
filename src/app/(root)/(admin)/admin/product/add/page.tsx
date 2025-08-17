@@ -140,7 +140,7 @@ const AddProduct = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input type="text" placeholder="Enter Category Name" {...field} />
+                          <Input type="text" placeholder="Enter Product Name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
