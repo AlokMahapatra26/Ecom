@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import MediaModel from "./Media.model";
 
 const ProductSchema = new mongoose.Schema({
     name: {
