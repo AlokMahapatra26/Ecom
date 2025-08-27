@@ -1,6 +1,6 @@
 "use client"
 
-import { USER_DASHBOARD, WEBSITE_HOME, WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
+import { USER_DASHBOARD, USER_SHOP, WEBSITE_HOME, WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
 import Link from 'next/link'
 import React from 'react'
 import { IoIosSearch } from 'react-icons/io'
@@ -15,14 +15,10 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 const Header = () => {
   const auth = useSelector((store: any) => store.authStore.auth)
 
-
-
-
-
   const navLinks = [
     { href: WEBSITE_HOME, label: "Home" },
     { href: "#", label: "About" },
-    { href: "#", label: "Shop" },
+    { href: USER_SHOP, label: "Shop" },
     { href: "#", label: "Bags" },
     { href: "#", label: "Saree" },
     { href: "#", label: "Material" },
