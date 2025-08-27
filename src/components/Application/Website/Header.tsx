@@ -1,6 +1,6 @@
 "use client"
 
-import { USER_DASHBOARD, USER_SHOP, WEBSITE_HOME, WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
+import { USER_DASHBOARD, WEBSITE_SHOP, WEBSITE_HOME, WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
 import Link from 'next/link'
 import React from 'react'
 import { IoIosSearch } from 'react-icons/io'
@@ -18,7 +18,7 @@ const Header = () => {
   const navLinks = [
     { href: WEBSITE_HOME, label: "Home" },
     { href: "#", label: "About" },
-    { href: USER_SHOP, label: "Shop" },
+    { href: WEBSITE_SHOP, label: "Shop" },
     { href: "#", label: "Bags" },
     { href: "#", label: "Saree" },
     { href: "#", label: "Material" },
