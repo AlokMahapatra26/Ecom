@@ -10,6 +10,7 @@ const FeaturedProduct = async () => {
     console.log(productData)
 
     if(!productData) return null
+    console.log(productData)
 
     return (
         <section className='lg:px-32 px-4 sm:py-10'>
