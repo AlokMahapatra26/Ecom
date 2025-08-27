@@ -16,7 +16,7 @@ export const sizes = [
 export const  sortings = [
   { label :'Default Sorting ' , value: 'default_sorting'},
   { label :'Ascending Order ' , value: 'asc'},
-  { label :'Descending Order' , value: 'dsc'},
+  { label :'Descending Order' , value: 'desc'},
   { label :'Price : Low to High' , value: 'price_low_high'},
   { label :'Price : High to Low' , value: 'price_high_low'},
 ]

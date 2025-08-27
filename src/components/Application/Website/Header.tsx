@@ -2,19 +2,21 @@
 
 import { USER_DASHBOARD, WEBSITE_SHOP, WEBSITE_HOME, WEBSITE_LOGIN } from '@/routes/WebsiteRoute'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { IoIosSearch } from 'react-icons/io'
 import Cart from '@/components/Application/Website/Cart'
 import { VscAccount } from "react-icons/vsc"
 import { useSelector } from 'react-redux'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { User } from 'lucide-react'
+import {  User } from 'lucide-react'
+import Search from "@/components/Application/Website/Search"
 import { HiMiniBars3 } from "react-icons/hi2"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 const Header = () => {
   const auth = useSelector((store: any) => store.authStore.auth)
 
+  const [showSearch , setShowSearch] = useState(false);
   const navLinks = [
     { href: WEBSITE_HOME, label: "Home" },
     { href: "#", label: "About" },
@@ -47,7 +49,7 @@ const Header = () => {
 
         {/* Right Side */}
         <div className="flex items-center gap-6">
-          <button type="button">
+          <button type="button" onClick={()=> setShowSearch(!showSearch)}>
             <IoIosSearch
               size={22}
               className="cursor-pointer text-muted-foreground hover:text-primary transition-colors"
@@ -101,6 +103,8 @@ const Header = () => {
           </Sheet>
         </div>
       </div>
+
+      <Search isShow={showSearch}/>
     </header>
   )
 }
