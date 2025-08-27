@@ -12,3 +12,11 @@ export const sizes = [
   {label : 'XL' , value : 'XL'},
   {label : '2XL' , value : '2XL'}
 ]
+
+export const  sortings = [
+  { label :'Default Sorting ' , value: 'default_sorting'},
+  { label :'Ascending Order ' , value: 'asc'},
+  { label :'Descending Order' , value: 'dsc'},
+  { label :'Price : Low to High' , value: 'price_low_high'},
+  { label :'Price : High to Low' , value: 'price_high_low'},
+]
