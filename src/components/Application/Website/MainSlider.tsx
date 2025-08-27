@@ -6,22 +6,22 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    title: "New Summer Wear",
-    subtitle: "Fresh arrivals for your wardrobe",
+    title: "Best Quality Silk Saree",
+    subtitle: "Buy Now",
     image:
-      "/slider-1.webp",
+      "/slider_1.png",
   },
   {
-    title: "Winter Collection",
-    subtitle: "Stay warm with style",
+    title: "Top Fashionable Bags",
+    subtitle: "Buy Now",
     image:
-      "/slider-2.png",
+      "/slider_2.png",
   },
   {
-    title: "Accessories",
-    subtitle: "Complete your look",
+    title: "Best Quality Fabric Material",
+    subtitle: "Buy Now",
     image:
-      "/slider-3.png",
+      "/slider_3.png",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function MainSlider() {
   };
 
   return (
-    <div className="relative w-full h-[50vh] overflow-hidden">
+    <div className="relative w-full h-[70vh] overflow-hidden">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div

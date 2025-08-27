@@ -10,21 +10,22 @@ import { useSelector } from 'react-redux'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { User } from 'lucide-react'
 import { HiMiniBars3 } from "react-icons/hi2"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 const Header = () => {
   const auth = useSelector((store: any) => store.authStore.auth)
 
 
 
-  
+
 
   const navLinks = [
     { href: WEBSITE_HOME, label: "Home" },
     { href: "#", label: "About" },
     { href: "#", label: "Shop" },
-    { href: "#", label: "Tshirt" },
-    { href: "#", label: "Sharee" },
+    { href: "#", label: "Bags" },
+    { href: "#", label: "Saree" },
+    { href: "#", label: "Material" },
   ]
 
   return (
@@ -87,8 +88,7 @@ const Header = () => {
               </button>
             </SheetTrigger>
             <SheetContent side="left" className="p-6">
-              {/* Accessibility requirement: hidden title */}
-              <h2 className="sr-only">Navigation Menu</h2>
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
 
               <nav className="flex flex-col gap-6 mt-6">
                 {navLinks.map((link) => (
