@@ -1,7 +1,9 @@
+"use client"
 import Filter from '@/components/Application/Website/Filter'
+import Sorting from '@/components/Application/Website/Sorting'
 import WebsiteBreadcrumb from '@/components/Application/Website/WebsiteBreadcrumb'
 import { WEBSITE_SHOP } from '@/routes/WebsiteRoute'
-import React from 'react'
+import React, { useState } from 'react'
 
 
 const breadcrumb = {
@@ -12,6 +14,10 @@ const breadcrumb = {
 }
 
 const Shop = () => {
+
+
+  const [limit , setLimit] = useState(9)
+
   return (
     <div>
           <WebsiteBreadcrumb title={breadcrumb.title} links={breadcrumb.links} />
@@ -20,6 +26,11 @@ const Shop = () => {
                 <div className='sticky top-0 p-4 rounded bg-accent'>
                     <Filter/>
                 </div>
+            </div>
+
+
+            <div className='lg:w-[calc(100%-18rem)]'>
+              <Sorting limit={limit} setLimit={setLimit}/>
             </div>
           </section>
     </div>
