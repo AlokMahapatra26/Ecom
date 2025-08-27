@@ -1,30 +1,59 @@
+// component/MediaModal.tsx
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import ModalMediaBlock from './ModalMediaBlock'
+import ButtonLoading from '../ButtonLoading'
 
-const MediaModal = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple }) => {
+// Define the shape of a single media item
+interface MediaItem {
+    _id: string;
+    [key: string]: any; 
+}
 
-    const [previouslySelected , setPrevioslySelected] = useState([])
+// Define the shape of a single page of data from the API
+interface MediaPage {
+    mediaData: MediaItem[];
+    hasMore: boolean;
+}
 
-    const fetchMedia = async (page) => {
+// Define the props for the MediaModal component
+interface MediaModalProps {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    selectedMedia: string[];
+    setSelectedMedia: React.Dispatch<React.SetStateAction<string[]>>;
+    isMultiple: boolean;
+}
+
+const MediaModal: React.FC<MediaModalProps> = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple }) => {
+
+    const [previouslySelected, setPrevioslySelected] = useState<string[]>([])
+
+    const fetchMedia = async (page: number): Promise<MediaPage> => {
         const { data: response } = await axios.get(`/api/media?page=${page}&&limit=18&&deleteType=SD`)
         return response;
     }
 
-    const { isPending, isError, error, data, isFetching, fetchNextPage, hasNextPage } = useInfiniteQuery({
+    const {
+        isPending,
+        isError,
+        error,
+        data,
+        isFetching,
+        fetchNextPage,
+        hasNextPage
+    } = useInfiniteQuery<MediaPage, Error>({
         queryKey: ['MediaModal'],
-        queryFn: async ({ pageParam }) => await fetchMedia(pageParam),
-        placeholderData: 0,
-        initialData: 0,
+        queryFn: async ({ pageParam = 0 }) => await fetchMedia(pageParam as number),
+        initialPageParam: 0,
         getNextPageParam: (lastPage, allPages) => {
             const nextPage = allPages.length
             return lastPage.hasMore ? nextPage : undefined
         }
     })
-
 
     const handleClear = () => {
         setSelectedMedia([]);
@@ -32,14 +61,13 @@ const MediaModal = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple
         alert("Media selection cleared")
     }
 
-
     const handleClose = () => {
         setSelectedMedia(previouslySelected)
         setOpen(false);
     }
 
     const handleSelect = () => {
-        if(selectedMedia.length <= 0){
+        if (selectedMedia.length <= 0) {
             return alert("please select media")
         }
 
@@ -48,7 +76,7 @@ const MediaModal = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple
     }
 
     return (
-        <Dialog open={open} onOpenChange={() => setOpen(!open)}  >
+        <Dialog open={open} onOpenChange={() => setOpen(!open)} >
             <DialogContent onInteractOutside={(e) => e.preventDefault()}
                 className='sm:max-w-[80%] h-screen p-0 py-10 bg-transparent border-0 shadow-none'
             >
@@ -72,14 +100,11 @@ const MediaModal = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple
                             isError ? <div>
                                 <span className='text-red-500'>{error.message}</span>
                             </div> :
-
                                 <>
                                     <div className='grid lg:grid-cols-6 grid-cols-3 gap-2'>
-
-
                                         {data?.pages?.map((page, index) => (
                                             <React.Fragment key={index}>
-                                                {page?.mediaData?.map((media: any) => (
+                                                {page?.mediaData?.map((media: MediaItem) => (
                                                     <ModalMediaBlock
                                                         key={media._id}
                                                         media={media}
@@ -91,6 +116,18 @@ const MediaModal = ({ open, setOpen, selectedMedia, setSelectedMedia, isMultiple
                                             </React.Fragment>
                                         ))}
                                     </div>
+
+                                    {hasNextPage && (
+                                        <div className='mt-4 flex justify-center'>
+                                            <ButtonLoading
+                                                type='button'
+                                                loading={isFetching}
+                                                onClick={() => fetchNextPage()}
+                                                text='Load more'
+                                                className='cursor-pointer'
+                                            />
+                                        </div>
+                                    )}
                                 </>}
                     </div>
 

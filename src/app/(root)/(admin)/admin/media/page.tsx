@@ -1,3 +1,4 @@
+// media/page.tsx
 "use client"
 
 import BreadCrumb from '@/components/Application/Admin/BreadCrumb'
@@ -30,6 +31,32 @@ const MediaPage = () => {
   const searchParams = useSearchParams()
 
 
+  const fetchMedia = async (page: any, deleteType: any) => {
+    const { data: response } = await axios.get(
+      `/api/media?page=${page}&&limit=10&&deleteType=${deleteType}`
+    )
+    return response
+  }
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    status,
+    refetch
+  } = useInfiniteQuery({
+    queryKey: ['media-data', deleteType],
+    queryFn: async ({ pageParam }) => await fetchMedia(pageParam, deleteType),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, pages) => {
+      const nextPage = pages.length
+      return lastPage.hasMore ? nextPage : undefined
+    }
+  })
+
+
   useEffect(() => {
     if (searchParams) {
       const trashOf = searchParams.get('trashof')
@@ -42,32 +69,10 @@ const MediaPage = () => {
     }
   }, [searchParams])
 
+  useEffect(() => {
+    refetch();
+  }, [deleteType, refetch]);
 
-
-  const fetchMedia = async (page: any, deleteType: any) => {
-    const { data: response } = await axios.get(
-      `/api/media?page=${page}&&limit=10&&deleteType=${deleteType}`
-    )
-
-    return response
-  }
-
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    status
-  } = useInfiniteQuery({
-    queryKey: ['media-data', deleteType],
-    queryFn: async ({ pageParam }) => await fetchMedia(pageParam, deleteType),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, pages) => {
-      const nextPage = pages.length
-      return lastPage.hasMore ? nextPage : undefined
-    }
-  })
 
   const deleteMutation = useDeleteMutation('media-data', '/api/media/delete')
 
@@ -90,7 +95,6 @@ const MediaPage = () => {
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll)
-
   }
 
   useEffect(() => {
@@ -100,7 +104,7 @@ const MediaPage = () => {
     } else {
       setSelectedMedia([])
     }
-  }, [selectAll])
+  }, [selectAll, data])
 
   return (
     <div>
@@ -197,8 +201,8 @@ const MediaPage = () => {
 
           )}
 
-          {hasNextPage && 
-          <ButtonLoading type='button' loading={isFetching} onClick={() => fetchNextPage()} text='Load more' className='cursor-pointer'/>
+          {hasNextPage &&
+            <ButtonLoading type='button' loading={isFetching} onClick={() => fetchNextPage()} text='Load more' className='cursor-pointer' />
           }
         </CardContent>
       </Card>
